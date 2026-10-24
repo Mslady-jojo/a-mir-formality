@@ -680,7 +680,9 @@ impl Pretty for TraitItem {
         }
 
         write!(f, "trait {}", self.name)?;
-        self.generics.fmt_params_relaxed(f)?;
+        self.generics.fmt_params(f)?;
+        // Formality doesn't model `Sized`, and `Self` is unsized in traits by default.
+        f.write_str(": Sized")?;
         self.generics.fmt_where_clauses(f)?;
 
         if self.items.is_empty() {
