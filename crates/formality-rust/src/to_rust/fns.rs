@@ -118,7 +118,7 @@ mod test {
                 }
             ],
             expect_test::expect![[r#"
-                pub trait Bar { }
+                pub trait Bar: Sized { }
 
                 pub fn run<T00>(mut p1: T00) -> T00 where T00: Bar {
                     panic!("Trusted Fn Body")

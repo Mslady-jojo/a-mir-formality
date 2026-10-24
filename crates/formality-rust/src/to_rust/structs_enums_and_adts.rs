@@ -131,7 +131,7 @@ pub struct Bar {
                 }
             ],
             expect_test::expect![[r#"
-                pub trait Baz { }
+                pub trait Baz: Sized { }
 
                 pub struct Bar<T00> where T00: Baz {
                     pub a: T00,
@@ -175,7 +175,7 @@ pub enum Bar {
                 }
             ],
             expect_test::expect![[r#"
-                pub trait Baz { }
+                pub trait Baz: Sized { }
 
                 pub enum Bar<T00> where T00: Baz {
                     A { t: T00 },

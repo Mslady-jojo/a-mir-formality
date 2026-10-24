@@ -186,9 +186,9 @@ mod test {
                 }
             ],
             expect_test::expect![[r#"
-pub trait Write {
-    fn test() -> i32;
-}"#]]
+                pub trait Write: Sized {
+                    fn test() -> i32;
+                }"#]]
 
         );
     }
@@ -205,10 +205,10 @@ pub trait Write {
                 }
             ],
             expect_test::expect![[r#"
-pub trait Write {
-    type Error;
-    fn test() -> i32;
-}"#]]
+                pub trait Write: Sized {
+                    type Error;
+                    fn test() -> i32;
+                }"#]]
 
         );
     }
@@ -225,7 +225,7 @@ pub trait Write {
                 }
             ],
             expect_test::expect![[r#"
-                pub trait Write {
+                pub trait Write: Sized {
                     type Error<T10, T11>: Sized + Bar where T10: Read, T11: Write;
                     fn test() -> i32;
                 }"#]]
@@ -243,9 +243,9 @@ pub trait Write {
                 }
             ],
             expect_test::expect![[r#"
-                pub trait Baz { }
+                pub trait Baz: Sized { }
 
-                pub trait Bar<T01: ?Sized> where T01: Baz { }"#]]
+                pub trait Bar<T01>: Sized where T01: Baz { }"#]]
 
         );
     }
@@ -260,9 +260,9 @@ pub trait Write {
                 }
             ],
             expect_test::expect![[r#"
-                pub trait Baz<T01: ?Sized, T02: ?Sized> { }
+                pub trait Baz<T01, T02>: Sized { }
 
-                pub trait Bar<T01: ?Sized> where T01: Baz<i32, u8> { }"#]]
+                pub trait Bar<T01>: Sized where T01: Baz<i32, u8> { }"#]]
 
         );
     }
@@ -280,9 +280,9 @@ pub trait Write {
                 }
             ],
             expect_test::expect![[r#"
-                pub trait Baz { }
+                pub trait Baz: Sized { }
 
-                pub trait Bar<T01: ?Sized> where T01: Baz {
+                pub trait Bar<T01>: Sized where T01: Baz {
                     type Error;
                     fn test() -> T01;
                 }"#]]
@@ -298,7 +298,7 @@ pub trait Write {
                     trait Bar<const C> where type_of_const C is bool {}
                 }
             ],
-            expect_test::expect!["pub trait Bar<const N01: bool> { }"]
+            expect_test::expect!["pub trait Bar<const N01: bool>: Sized { }"]
         );
     }
 
@@ -318,11 +318,11 @@ pub trait Write {
                 }
             ],
             expect_test::expect![[r#"
-                pub trait Bar<T01: ?Sized> {
+                pub trait Bar<T01>: Sized {
                     fn run() -> T01;
                 }
 
-                pub trait Bur { }
+                pub trait Bur: Sized { }
 
                 pub struct Baz {}
 
@@ -347,17 +347,17 @@ pub trait Write {
                 }
             ],
             expect_test::expect![[r#"
-pub trait Bar {
-    fn run() -> i32;
-}
+                pub trait Bar: Sized {
+                    fn run() -> i32;
+                }
 
-pub struct Baz {}
+                pub struct Baz {}
 
-impl Bar for Baz {
-    fn run() -> i32 {
-        panic!("Trusted Fn Body")
-    }
-}"#]]
+                impl Bar for Baz {
+                    fn run() -> i32 {
+                        panic!("Trusted Fn Body")
+                    }
+                }"#]]
 
         );
     }
@@ -373,11 +373,11 @@ impl Bar for Baz {
                 }
             ],
             expect_test::expect![[r#"
-pub trait Bar { }
+                pub trait Bar: Sized { }
 
-pub struct Baz {}
+                pub struct Baz {}
 
-impl !Bar for Baz {}"#]]
+                impl !Bar for Baz {}"#]]
 
         );
     }
@@ -390,7 +390,7 @@ impl !Bar for Baz {}"#]]
                     trait Foo<T> where T: Bar<Self> {}
                 }
             ],
-            expect_test::expect!["pub trait Foo<T01: ?Sized> where T01: Bar<Self> { }"]
+            expect_test::expect!["pub trait Foo<T01>: Sized where T01: Bar<Self> { }"]
 
         );
     }

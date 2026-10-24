@@ -573,11 +573,11 @@ mod test {
                 }
             ],
             expect_test::expect![[r#"
-                pub trait Foo {
+                pub trait Foo: Sized {
                     type Assoc;
                 }
 
-                pub trait Bar<T01: ?Sized> { }
+                pub trait Bar<T01>: Sized { }
 
                 impl<T00, T01> Bar<T01> for T00 where <T00 as Foo>::Assoc: Bar<T01> {}"#]]
         );

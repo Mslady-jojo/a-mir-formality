@@ -304,8 +304,8 @@ fn test_let_with_ill_formed_type() {
         help: this trait has no implementations, consider adding one
           --> lib.rs
            |
-         1 | pub trait Trait1 {}
-           | ^^^^^^^^^^^^^^^^
+         1 | pub trait Trait1: Sized {}
+           | ^^^^^^^^^^^^^^^^^^^^^^^
         note: required by a bound in `S2`
           --> lib.rs
            |

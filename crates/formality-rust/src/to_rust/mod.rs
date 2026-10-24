@@ -299,7 +299,7 @@ mod test {
                 }
             ],
             expect_test::expect![[r#"
-                pub trait Trait { }
+                pub trait Trait: Sized { }
 
                 pub struct A<T00> where T00: Trait {}
 
@@ -338,9 +338,9 @@ mod test {
                 }
             ],
             expect_test::expect![[r#"
-                pub trait A { }
+                pub trait A: Sized { }
 
-                pub trait B where for<'a10> &'a10 u32: A { }"#]]
+                pub trait B: Sized where for<'a10> &'a10 u32: A { }"#]]
         )
     }
 }
